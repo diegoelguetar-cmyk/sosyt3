@@ -8,29 +8,29 @@ typedef struct nodo {
   struct nodo *prev, *prox;
 } Nodo;
 
-void asignarPrev(Nodo *t, Nodo **pprev) {
+Nodo asignarPrev(Nodo *t, Nodo **pprev) {
 
-  if (*t == NULL) {
+  if (t == NULL) {
     return **pprev;
   }
   
-  **pprev->prox = NULL; 
+  (*pprev)->prox = NULL; 
   
-  else if (*t->izq != NULL) {
-    **pprev->prox = asignarPrev(*t->izq, *t);
-    **pprev->prox->prev = **pprev; 
-    **pprev = **pprev->prox;
-  }
-  else if (*t != NULL) {
-    **pprev->prox = *t;
-    **pprev->prox->prev = **pprev;
-    **pprev = **pprev->prox;
+  if (t->izq != NULL) {
+    *((*pprev)->prox) = asignarPrev( t->izq, t);
+    *((*pprev)->prox->prev) = **pprev; 
+    **pprev = *((*pprev)->prox);
+  } 
+  else if (t != NULL) {
+    *((*pprev)->prox) = *t;
+    *((*pprev)->prox->prev) = **pprev;
+    **pprev = *((*pprev)->prox);
   }
 
-  else if (*t->der != NULL) {
-    **pprev->prox = asignarPrev(*t->der, *t);
-    **pprev->prox->prev = **pprev; 
-    **pprev = **pprev->prox;
+  else if (t->der != NULL) {
+    *((*pprev)->prox) = asignarPrev((t->der), t);
+    *(*pprev)->prox->prev = **pprev; 
+    **pprev = *((*pprev)->prox);
   }
 
 }
